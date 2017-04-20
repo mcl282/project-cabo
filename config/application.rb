@@ -26,6 +26,8 @@ module CaboServer
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+    # tell Rails to use the regular scaffolding process
+    config.app_generators.scaffold_controller = :scaffold_controller
 
     #the following is setup for ActiveAdmin    
     config.middleware.use Rack::MethodOverride
