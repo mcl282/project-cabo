@@ -29,6 +29,12 @@ group :development, :test do
   gem 'sqlite3'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'rspec-rails', '~> 3.5'
+end
+ 
+group :test do
+  gem 'shoulda-matchers', '~> 3.0', require: false
+  gem 'faker', '~> 1.6.1'
 end
 
 group :development do
