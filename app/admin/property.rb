@@ -12,16 +12,19 @@ ActiveAdmin.register Property do
 #   permitted << :other if params[:action] == 'create' && current_user.admin?
 #   permitted
 # end
-  form title: 'A custom title' do |f|
+  form title: 'Create a New Property' do |f|
     inputs 'Details' do
       input :street_number
+      input :route
+      input :unit
+      input :locality
+      input :administrative_area_level_1
+      input :country, :as => :string
+      input :postal_code
+      input :google_place_id
+      input :zillow_zpid 
       li "Created at #{f.object.created_at}" unless f.object.new_record?
     end
-    panel 'Markup' do
-      "The following can be used in the content below..."
-    end
-    inputs 'Content', :route
-    para "Press cancel to return to the list without saving."
-    actions
   end
 end
+
