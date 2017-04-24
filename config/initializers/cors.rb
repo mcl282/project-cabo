@@ -7,17 +7,18 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'https://project-cabo-mcl282.c9users.io:8082'
+    origins '*' 
+    #'https://project-cabo-mcl282.c9users.io:8082'
 
     resource '*',
       headers: :any,
       methods: [:get, :post, :put, :patch, :delete, :options, :head]
   end
-  allow do
-    origins 'cabo-server.herokuapp.com'
+  # allow do
+  #   origins 'cabo-server.herokuapp.com'
 
-    resource '*',
-      headers: :any,
-      methods: [:get, :post, :put, :patch, :delete, :options, :head]
-  end
+  #   resource '*',
+  #     headers: :any,
+  #     methods: [:get, :post, :put, :patch, :delete, :options, :head]
+  # end
 end
