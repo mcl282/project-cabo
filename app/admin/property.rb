@@ -24,6 +24,7 @@ ActiveAdmin.register Property do
       input :google_place_id
       input :zillow_zpid 
       li "Created at #{f.object.created_at}" unless f.object.new_record?
+      actions
     end
   end
 end
