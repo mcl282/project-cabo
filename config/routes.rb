@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
 
 scope module: 'api' do
+  resources :users
   namespace :v1 do
     resources :properties
     end  
