@@ -1,5 +1,6 @@
 module Api::V1
   class PropertiesController < ApiController
+    before_action :authenticate_user
     before_action :set_property, only: [:show, :update, :destroy]
   
     # GET /properties

@@ -58,3 +58,4 @@ gem 'inherited_resources', git: 'https://github.com/activeadmin/inherited_resour
 
 #authentication
 gem 'bcrypt', '~> 3.1', '>= 3.1.11'
+gem 'knock', '~> 2.1', '>= 2.1.1'
