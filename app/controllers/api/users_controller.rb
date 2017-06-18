@@ -14,11 +14,13 @@ class Api::UsersController < ApplicationController
   # POST /properties
   def create
     @user = User.new(user_params)
-
+    
     if @user.save
-      render json: @user, status: :created #, location: @user
+      jwt = Knock::AuthToken.new(payload: {auth: token_params}).token
+
+      render json: {user: @user, jwt: jwt}, status: :created  #, location: @user
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: @user.errors.full_messages, status: :unprocessable_entity
     end
   end
 
@@ -27,7 +29,7 @@ class Api::UsersController < ApplicationController
     if @user.update(user_params)
       render json: @user
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: @user.errors.full_messages, status: :unprocessable_entity
     end
   end
 
@@ -46,5 +48,10 @@ class Api::UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:email, :first_name, :last_name, :password)
     end
+    
+    def token_params
+      params.require(:user).permit(:email, :password)
+    end
+    
 end
 
