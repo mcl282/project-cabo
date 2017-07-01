@@ -1,17 +1,17 @@
 class Api::UsersController < ApplicationController
- # GET /properties
+ # GET /users
   def index
     @users = @User.all
 
     render json: @users
   end
 
-  # GET /properties/1
+  # GET /users/1
   def show
     render json: @user
   end
 
-  # POST /properties
+  # POST /users
   def create
     @user = User.new(user_params)
     
@@ -24,7 +24,7 @@ class Api::UsersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /properties/1
+  # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
       render json: @user
@@ -33,7 +33,7 @@ class Api::UsersController < ApplicationController
     end
   end
 
-  # DELETE /properties/1
+  # DELETE /users/1
   def destroy
     @user.destroy
   end
