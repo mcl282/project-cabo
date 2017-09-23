@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170621012837) do
+ActiveRecord::Schema.define(version: 20170917034756) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -55,6 +55,15 @@ ActiveRecord::Schema.define(version: 20170621012837) do
     t.string   "zillow_zpid"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+  end
+
+  create_table "purchases", force: :cascade do |t|
+    t.string   "stripe_charge_id"
+    t.integer  "user_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["stripe_charge_id", "user_id"], name: "index_purchases_on_stripe_charge_id_and_user_id"
+    t.index ["user_id"], name: "index_purchases_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

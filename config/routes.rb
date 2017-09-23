@@ -11,6 +11,7 @@ scope module: 'api' do
   resources :password_resets,     only: [:create, :update]
   namespace :v1 do
     resources :properties
+    resources :charges
     end  
   end
 end
