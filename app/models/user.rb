@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_one :transfer_customer
+  
   has_secure_password
   attr_accessor :reset_token  
   before_save   :downcase_email

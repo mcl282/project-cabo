@@ -28,6 +28,8 @@ gem 'active_model_serializers', '~> 0.10.5'
 gem 'stripe', '~> 3.3', '>= 3.3.1'
 #figaro gem for securely managing credentials
 gem 'figaro', '~> 1.1', '>= 1.1.1'
+#dwolla for funds transfers
+gem 'dwolla_v2', '~> 2.0'
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record

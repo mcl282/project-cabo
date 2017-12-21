@@ -7,11 +7,12 @@ Rails.application.routes.draw do
 
 scope module: 'api' do
   post 'user_token' => 'user_token#create'  
-  resources :users
   resources :password_resets,     only: [:create, :update]
   namespace :v1 do
+    resources :users
     resources :properties
     resources :charges
+    resources :transfer_customers
     end  
   end
 end
