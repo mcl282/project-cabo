@@ -17,7 +17,6 @@ module Api::V1
     def create
       
       #before creating, check to see if a valid funding source already exists
-      puts TransferSource.funding_source_exists?(current_user.id)
       if TransferSource.funding_source_exists?(current_user.id) then raise end;
 
       #pull the public token and account id off of the incoming request
