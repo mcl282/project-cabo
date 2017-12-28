@@ -30,6 +30,8 @@ gem 'stripe', '~> 3.3', '>= 3.3.1'
 gem 'figaro', '~> 1.1', '>= 1.1.1'
 #dwolla for funds transfers
 gem 'dwolla_v2', '~> 2.0'
+#plaid to handle auth for dwolla
+gem 'plaid'
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record

@@ -13,6 +13,7 @@ scope module: 'api' do
     resources :properties
     resources :charges
     resources :transfer_customers
+    resources :transfer_sources
     end  
   end
 end

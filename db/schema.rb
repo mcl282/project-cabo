@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171217160207) do
+ActiveRecord::Schema.define(version: 20171227165237) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -43,6 +43,15 @@ ActiveRecord::Schema.define(version: 20171217160207) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "plaid_credentials", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "access_token"
+    t.string   "item_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["user_id"], name: "index_plaid_credentials_on_user_id"
+  end
+
   create_table "properties", force: :cascade do |t|
     t.string   "street_number"
     t.string   "route"
@@ -72,6 +81,15 @@ ActiveRecord::Schema.define(version: 20171217160207) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_transfer_customers_on_user_id"
+  end
+
+  create_table "transfer_sources", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "funding_source_location"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.boolean  "removed"
+    t.index ["user_id"], name: "index_transfer_sources_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
