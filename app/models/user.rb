@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_one :transfer_customer
   has_many :plaid_credentials
-  has_many :transfer_sources
+
   
   has_secure_password
   attr_accessor :reset_token  
