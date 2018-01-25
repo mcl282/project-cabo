@@ -12,8 +12,17 @@ Rails.application.routes.draw do
       resources :users
       resources :properties
       resources :charges
-      resources :transfer_customers
-      resources :transfer_sources
+      resources :transfer_customers do
+        collection do
+          post :update_transfer_customer
+        end
+      end        
+      resources :transfer_sources do
+        collection do
+          post :update_transfer_source
+        end        
+      end
+      resources :transfers, only: [:index, :show, :create]
     end  
     namespace :webhooks do
       resources :dwolla_webhooks, only: [:create]
@@ -21,3 +30,5 @@ Rails.application.routes.draw do
   end
 
 end
+
+

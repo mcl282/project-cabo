@@ -32,6 +32,9 @@ gem 'figaro', '~> 1.1', '>= 1.1.1'
 gem 'dwolla_v2', '~> 2.0'
 #plaid to handle auth for dwolla
 gem 'plaid'
+#work accurately with currencies
+gem 'money-rails', '~>1'
+
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record

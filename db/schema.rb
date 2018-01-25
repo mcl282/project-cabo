@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171231214957) do
+ActiveRecord::Schema.define(version: 20180124133628) do
+
+  create_table "Units", force: :cascade do |t|
+    t.integer  "manager_id"
+    t.integer  "tenant_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["manager_id", "tenant_id"], name: "index_relationships_on_manager_id_and_tenant_id", unique: true
+    t.index ["manager_id"], name: "index_relationships_on_manager_id"
+    t.index ["tenant_id"], name: "index_relationships_on_tenant_id"
+  end
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -81,6 +91,20 @@ ActiveRecord::Schema.define(version: 20171231214957) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_transfer_customers_on_user_id"
+  end
+
+  create_table "transfer_terms", force: :cascade do |t|
+    t.integer  "monthly_amount_cents"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  create_table "transfers", force: :cascade do |t|
+    t.string   "link"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.integer  "transfer_term_id_id"
+    t.index ["transfer_term_id_id"], name: "index_transfers_on_transfer_term_id_id"
   end
 
   create_table "users", force: :cascade do |t|

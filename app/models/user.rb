@@ -1,6 +1,15 @@
 class User < ApplicationRecord
   has_one :transfer_customer
   has_many :plaid_credentials
+  
+  #The lessor receives payment from the tenant
+  has_many :lessors, class_name: "Unit", foreign_key: "manager_id", dependent: :destroy
+  #The lessee pays rent to the landlord 
+  has_many :lessees, class_name: "Unit", foreign_key: "tenant_id", dependent: :destroy
+  
+  has_many :tenants, through: :lessors
+  has_many :managers, through: :lessees
+
 
   
   has_secure_password
