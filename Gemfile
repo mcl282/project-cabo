@@ -35,6 +35,8 @@ gem 'plaid'
 #work accurately with currencies
 gem 'money-rails', '~>1'
 
+#used to store encrypted data in DB
+gem 'attr_encrypted', '~> 3.1'
 
 group :development, :test do
   # Use sqlite3 as the database for Active Record

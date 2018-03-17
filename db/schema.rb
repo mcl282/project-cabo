@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180124133628) do
+ActiveRecord::Schema.define(version: 20180312124652) do
 
   create_table "Units", force: :cascade do |t|
     t.integer  "manager_id"
@@ -85,6 +85,14 @@ ActiveRecord::Schema.define(version: 20180124133628) do
     t.index ["user_id"], name: "index_purchases_on_user_id"
   end
 
+  create_table "token_data", force: :cascade do |t|
+    t.string   "encrypted_access_token"
+    t.string   "encrypted_access_token_iv"
+    t.integer  "expires_in"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
   create_table "transfer_customers", force: :cascade do |t|
     t.integer  "user_id"
     t.text     "location"
@@ -93,18 +101,41 @@ ActiveRecord::Schema.define(version: 20180124133628) do
     t.index ["user_id"], name: "index_transfer_customers_on_user_id"
   end
 
+  create_table "transfer_schedules", force: :cascade do |t|
+    t.integer  "transfer_term_id"
+    t.integer  "transfer_id"
+    t.string   "status"
+    t.date     "initialize_transfer_date"
+    t.integer  "value_cents"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.integer  "transfer_attempt_counter"
+    t.index ["transfer_id"], name: "index_transfer_schedules_on_transfer_id"
+    t.index ["transfer_term_id"], name: "index_transfer_schedules_on_transfer_term_id"
+  end
+
   create_table "transfer_terms", force: :cascade do |t|
     t.integer  "monthly_amount_cents"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+    t.integer  "unit_id"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.index ["unit_id"], name: "index_transfer_terms_on_unit_id"
   end
 
   create_table "transfers", force: :cascade do |t|
     t.string   "link"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
-    t.integer  "transfer_term_id_id"
-    t.index ["transfer_term_id_id"], name: "index_transfers_on_transfer_term_id_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.integer  "transfer_term_id"
+    t.integer  "request_status_code"
+    t.string   "transfer_status"
+    t.string   "resource_status_link"
+    t.integer  "transfer_schedule_id"
+    t.index ["link"], name: "index_transfers_on_link"
+    t.index ["transfer_schedule_id"], name: "index_transfers_on_transfer_schedule_id"
+    t.index ["transfer_term_id"], name: "index_transfers_on_transfer_term_id"
   end
 
   create_table "users", force: :cascade do |t|

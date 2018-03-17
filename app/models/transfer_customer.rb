@@ -1,23 +1,21 @@
 class TransferCustomer < ApplicationRecord
+  include DwollaAppToken
   belongs_to :user
 
-
-    @@app_token = $dwolla.auths.client
-
-    @@plaid = Plaid::Client.new(
-          env: :sandbox,
-          client_id: ENV["PLAID_CLIENT_ID"],
-          secret: ENV["PLAID_SECRET"],
-          public_key: ENV["PLAID_PUBLIC_KEY"]) 
-
-
+    
+  
+    @@dwolla = DwollaAppToken.get_token
+  
+    @plaid = PlaidToken.get_token  
+  
+    
 
   #create a transfer source
   def create_transfer_source(account_info, user_id)
   
     #exchange public token for an access token
     pub_token = account_info[:public_token]
-    exchange_response = @@plaid.item.public_token.exchange(pub_token)
+    exchange_response = @plaid.item.public_token.exchange(pub_token)
     access_token = exchange_response['access_token']
     item_id = exchange_response['item_id']  
    
@@ -30,7 +28,7 @@ class TransferCustomer < ApplicationRecord
     #exchange a plaid access token for a plaid processor token
     #incorrectly documneted by Plaid / Dwolla; see here:  https://github.com/plaid/plaid-ruby/issues/174
     
-    plaid_dwolla_response = @@plaid.post_with_auth(
+    plaid_dwolla_response = @plaid.post_with_auth(
       'processor/dwolla/processor_token/create',
       access_token: access_token,
       account_id: account_info[:account_id])
@@ -49,7 +47,7 @@ class TransferCustomer < ApplicationRecord
       name: account_name + " @" + institution + " (type: " + account_type + ")"
     }
   
-    @@app_token.post "#{customer_url}/funding-sources", request_body  
+    @@dwolla.post "#{customer_url}/funding-sources", request_body  
   end
 
 #find transfer customer by user id  
@@ -58,14 +56,16 @@ class TransferCustomer < ApplicationRecord
   end
   
   def self.update_customer(customer_url, request_body)
-    @@app_token.post customer_url, request_body
+    @@dwolla.post customer_url, request_body
   end
   
 #create array of all active funding sources  
   def active_funding_sources
+    
     customer_url = self.location
-    funding_sources = @@app_token.get "#{customer_url}/funding-sources?removed=false"
-
+    
+    funding_sources = @@dwolla.get "#{customer_url}/funding-sources?removed=false"
+    
     funding_sources._embedded['funding-sources']
   end
 
@@ -90,7 +90,7 @@ class TransferCustomer < ApplicationRecord
   def self.update_funding_source(user_id, request_body)
     
     funding_source_url = self.funding_source_url(user_id)
-    dwolla_update_responnse = @@app_token.post "#{funding_source_url}", request_body
+    dwolla_update_responnse = @@dwolla.post "#{funding_source_url}", request_body
     {
       :status => dwolla_update_responnse[:status],
       :type => dwolla_update_responnse[:type],
@@ -103,36 +103,12 @@ class TransferCustomer < ApplicationRecord
   
   def self.retrieve_customer(user_id)
     customer_url = TransferCustomer.dwolla_customer_url(user_id)
-    @@app_token.get customer_url
+    @@dwolla.get customer_url
   end
   
-  def self.create_transfer(transfer)
-    
-    request_body = {
-      :_links => {
-        :source => {
-          :href => self.funding_source_url(transfer[:source_customer_id])
-        },
-        :destination => {
-          :href => self.funding_source_url(transfer[:destination_customer_id])
-        }
-      },
-      :amount => {
-        :currency => "USD",
-        :value => transfer[:value]
-      },
-      :metadata => {
-        :paymentId => "tbu",
-        :note => "tbu"
-      },
-      :clearing => {
-        :source => "standard",
-        :destination => "next-available"
-      }
-    }
-    
-    @@app_token.post "transfers", request_body
-    
+  def self.fetch_transfers(user_id)
+    customer_url = TransferCustomer.dwolla_customer_url(user_id)
+    @@dwolla.get "#{customer_url}/transfers"
   end
 
 end

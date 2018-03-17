@@ -34,5 +34,9 @@ module CaboServer
     config.middleware.use ActionDispatch::Flash
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
+    
+    #put the lib folder in to load path; eagerly loaded:  https://stackoverflow.com/questions/19773266/confusing-about-autoload-paths-vs-eager-load-paths-in-rails-4
+    
+    config.eager_load_paths << "#{Rails.root}/lib"
   end
 end

@@ -24,7 +24,7 @@ module Api::V1
       account_info = {
         :public_token => params[:values][:public_token],
         :account_id => params[:values][:account_id],
-        :account_name => params[:values][:accounts][0]['name'],
+        :account_name =>  params[:values][:accounts][0]['name'], 
         :account_type => params[:values][:accounts][0]['type'],
         :institution => params[:values][:institution]['name']
       }
