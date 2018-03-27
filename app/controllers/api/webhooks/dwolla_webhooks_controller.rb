@@ -7,7 +7,7 @@ module Api::Webhooks
     
       
     def create
-      pp params
+      pp params.to_unsafe_h
       
       case params[:topic]
         when 'customer_funding_source_verified'
