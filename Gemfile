@@ -38,6 +38,10 @@ gem 'money-rails', '~>1'
 #used to store encrypted data in DB
 gem 'attr_encrypted', '~> 3.1'
 
+#used for fileupload
+gem 'carrierwave', '~> 0.11.2'
+
+
 group :development, :test do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
@@ -60,6 +64,8 @@ end
 
 group :production do
   gem 'pg', '~> 0.18.4'
+  #used to connect to S3
+  gem 'fog', '~> 2.0'
 end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
