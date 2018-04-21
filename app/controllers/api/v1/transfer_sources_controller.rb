@@ -29,6 +29,8 @@ module Api::V1
         :institution => params[:values][:institution]['name']
       }
       
+      puts account_info
+      
       customer.create_transfer_source(account_info, current_user.id)
 
       render status: :created        

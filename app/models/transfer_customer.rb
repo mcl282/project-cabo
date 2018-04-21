@@ -6,7 +6,7 @@ class TransferCustomer < ApplicationRecord
   
     @@dwolla = DwollaAppToken.get_token
   
-    @plaid = PlaidToken.get_token  
+    @@plaid = PlaidToken.get_token  
   
     
 
@@ -15,7 +15,7 @@ class TransferCustomer < ApplicationRecord
   
     #exchange public token for an access token
     pub_token = account_info[:public_token]
-    exchange_response = @plaid.item.public_token.exchange(pub_token)
+    exchange_response = @@plaid.item.public_token.exchange(pub_token)
     access_token = exchange_response['access_token']
     item_id = exchange_response['item_id']  
    
@@ -28,7 +28,7 @@ class TransferCustomer < ApplicationRecord
     #exchange a plaid access token for a plaid processor token
     #incorrectly documneted by Plaid / Dwolla; see here:  https://github.com/plaid/plaid-ruby/issues/174
     
-    plaid_dwolla_response = @plaid.post_with_auth(
+    plaid_dwolla_response = @@plaid.post_with_auth(
       'processor/dwolla/processor_token/create',
       access_token: access_token,
       account_id: account_info[:account_id])
