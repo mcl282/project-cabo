@@ -17,12 +17,24 @@ module Api::V1
   
     # POST /properties
     def create
-      @property = Property.new(property_params)
+      address_components = params[:address_components]
+      
+      address = {
+        :street_number => address_components[0][:short_name],  
+        :route => address_components[1][:long_name],
+        :locality => address_components[3][:long_name],
+        :administrative_area_level_1 => address_components[5][:short_name],
+        :country => address_components[6][:long_name],
+        :postal_code => address_components[7][:long_name],
+        :google_place_id => params[:id]
+      }
+      
+      property = Property.new(address)
   
-      if @property.save
-        render json: @property, status: :created, location: @property
+      if property.save
+        render json: property, status: :created
       else
-        render json: @property.errors, status: :unprocessable_entity
+        render json: property.errors, status: :unprocessable_entity
       end
     end
   
