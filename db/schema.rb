@@ -10,15 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180408230125) do
+ActiveRecord::Schema.define(version: 20180503130058) do
 
   create_table "Units", force: :cascade do |t|
     t.integer  "manager_id"
     t.integer  "tenant_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "property_id"
+    t.string   "unit_name"
     t.index ["manager_id", "tenant_id"], name: "index_relationships_on_manager_id_and_tenant_id", unique: true
     t.index ["manager_id"], name: "index_relationships_on_manager_id"
+    t.index ["property_id"], name: "index_units_on_property_id"
     t.index ["tenant_id"], name: "index_relationships_on_tenant_id"
   end
 
@@ -73,7 +76,6 @@ ActiveRecord::Schema.define(version: 20180408230125) do
   create_table "properties", force: :cascade do |t|
     t.string   "street_number"
     t.string   "route"
-    t.string   "unit"
     t.string   "locality"
     t.string   "administrative_area_level_1"
     t.string   "country"
@@ -82,6 +84,10 @@ ActiveRecord::Schema.define(version: 20180408230125) do
     t.string   "zillow_zpid"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.integer  "unit_id"
+    t.integer  "user_id"
+    t.index ["unit_id"], name: "index_properties_on_unit_id"
+    t.index ["user_id"], name: "index_properties_on_user_id"
   end
 
   create_table "purchases", force: :cascade do |t|

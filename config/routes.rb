@@ -10,7 +10,10 @@ Rails.application.routes.draw do
     resources :password_resets,     only: [:create, :update]
     namespace :v1 do
       resources :users
-      resources :properties
+      resources :properties do
+        resources :units, only: [:create, :update, :index]
+      end
+      resources :units, only: [:show, :index, :update]
       resources :charges
       resources :transfer_customers do
         collection do
@@ -30,5 +33,4 @@ Rails.application.routes.draw do
   end
 
 end
-
 
